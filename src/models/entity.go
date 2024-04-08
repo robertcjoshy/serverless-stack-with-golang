@@ -11,18 +11,13 @@ var Database *gorm.DB
 
 func OpenDatabaseConnection() {
 	var err error
-	// //host := os.Getenv("POSTGRES_HOST")
-	// username := os.Getenv("POSTGRES_USER")
-	// password := os.Getenv("POSTGRES_PASSWORD")
-	// databaseName := os.Getenv("POSTGRES_DATABASE")
-	// port := os.Getenv("POSTGRES_PORT")
+	host := "database-robert.chsu6q8eqfk8.ap-south-1.rds.amazonaws.com"
 	username := "postgres"
-	password := "1234"
-	databaseName := "startup"
-	ssl := "disable"
-	zone := "Asia/Shanghai"
+	password := "12345678"
+	databaseName := ""
+	port := "5432"
 
-	dsn := fmt.Sprintf("user=%s password=%s dbname=%s sslmode = %s TimeZone=%s", username, password, databaseName, ssl, zone)
+	dsn := fmt.Sprintf("host=%s,user=%s password=%s dbname=%s,port=%s", host, username, password, databaseName, port)
 
 	Database, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
