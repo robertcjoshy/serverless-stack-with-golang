@@ -1,20 +1,20 @@
 package test
 
-type rob struct {
+type ro struct {
 	number int
 }
 
-type ruby struct {
+type rub struct {
 	name  string
 	age   int
 	place string
 }
 
-type daisy struct {
+type dais struct {
 	number int
 }
 
-type joshy struct {
+type josh struct {
 	name  string
 	age   int
 	place string
