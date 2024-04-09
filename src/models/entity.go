@@ -24,7 +24,7 @@ func OpenDatabaseConnection() {
 	if err != nil {
 		panic(err)
 	} else {
-		fmt.Println("🚀🚀🚀---ASCENDE SUPERIUS---🚀🚀🚀")
+		fmt.Println("connected succesfully")
 	}
 }
 
