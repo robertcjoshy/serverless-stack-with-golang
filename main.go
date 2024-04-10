@@ -1,20 +1,34 @@
 package main
 
 import (
-	"fmt"
+	"context"
 
-	"github.com/robert/serverless-stack-with-golang/src/models"
-	"github.com/robert/serverless-stack-with-golang/src/routes"
+	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
+	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
+	"github.com/gin-gonic/gin"
 )
 
-func main() {
-	//utils.LoadEnv()
-	models.OpenDatabaseConnection()
-	models.AutoMigrateModels()
-	router := routes.SetupRoutes()
-	router.Run("localhost:8080")
+var ginLambda *ginadapter.GinLambda
+
+func init() {
+	r := gin.Default()
+
+	r.GET("/app/")
+
+	r.POST("/app/")
+
+	r.DELETE("/app/")
+
+	r.PUT("/app/")
+
+	ginLambda = ginadapter.New(r)
 }
 
-func robert() {
-	fmt.Println("connected")
+func main() {
+	lambda.Start(handler)
+}
+
+func handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	return ginLambda.ProxyWithContext(ctx, req)
 }
