@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-gonic/gin"
+	"github.com/robert/serverless-stack-with-golang/src/handlers"
 )
 
 var ginLambda *ginadapter.GinLambda
@@ -14,21 +15,21 @@ var ginLambda *ginadapter.GinLambda
 func init() {
 	r := gin.Default()
 
-	r.GET("/app/")
+	r.POST("/", handlers.CreateUser)
 
-	r.POST("/app/")
+	r.GET("/:email", handlers.GetUser)
 
-	r.DELETE("/app/")
+	//r.DELETE("/app/det", handlers.DeleteUser)
 
-	r.PUT("/app/")
+	//r.PUT("/app/update", handlers.UpdateUser)
 
 	ginLambda = ginadapter.New(r)
 }
 
 func main() {
-	lambda.Start(handler)
+	lambda.Start(lambdahandler)
 }
 
-func handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func lambdahandler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	return ginLambda.ProxyWithContext(ctx, req)
 }
