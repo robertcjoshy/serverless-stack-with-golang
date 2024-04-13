@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
@@ -13,7 +14,7 @@ const (
 	port     = 5432
 	user     = "postgres"
 	password = "daisyjoshy"
-	dbname   = "robertfirst"
+	dbname   = "robert_first"
 )
 
 var Database *gorm.DB
@@ -21,23 +22,32 @@ var Database *gorm.DB
 func init() {
 	var err error
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s", host, port, user, password)
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s dbname=%s "+"password=%s", host, port, user, dbname, password)
 
 	Database, err = gorm.Open(postgres.Open(psqlInfo), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
+	Database.AutoMigrate(&User{})
 }
 
-func SaveEmail(mail string) (*Startup, error) {
-	var startup Startup
-	err := Database.Model(&startup).Create(&startup).Error
+func (user *User) SaveEmail() (*User, error) {
+	//var startup S
+
+	err := Database.Model(&user).Create(&user).Error
+	//err := Database.Create(&startup)
+	if err != nil {
+		log.Println("error in creating to databse")
+		return nil, err
+	}
+	return user, err
+}
+
+func GetEmail(search_mail string) (*User, error) {
+	var startup User
+	err := Database.Where("id = ?", search_mail).First(&startup).Error
 	if err != nil {
 		return nil, err
 	}
-	return &startup, err
-}
-
-func GetEmail(search_mail string) (*Startup, error) {
-
+	return &startup, nil
 }
