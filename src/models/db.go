@@ -2,8 +2,9 @@ package models
 
 import "gorm.io/gorm"
 
-type Startup struct {
+type User struct {
 	gorm.Model
-	Email    string `json:"email" bson:"email"`
-	Password string `json:"password" bson:"password"`
+	Email   string `json:"email" bson:"email"`
+	Name    string `json:"name" bson:"name"`
+	Country string `json:"country" bson:"country"`
 }
