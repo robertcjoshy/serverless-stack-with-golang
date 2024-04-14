@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"log"
 	"net/http"
 
@@ -18,7 +19,14 @@ type Response struct {
 
 func GetUser(c *gin.Context) {
 
-	email := c.Param("id")
+	email := c.Param("email")
+
+	if len(email) < 5 {
+		log.Println("no email is given")
+		err := errors.New("no email")
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
 
 	email_result, err := models.GetEmail(email)
 
