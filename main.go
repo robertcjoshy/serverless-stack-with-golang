@@ -15,9 +15,9 @@ var ginLambda *ginadapter.GinLambda
 func init() {
 	r := gin.Default()
 
-	r.POST("/", handlers.CreateUser)
+	r.POST("/app", handlers.CreateUser)
 
-	r.GET("/:email", handlers.GetUser)
+	r.GET("app/:email", handlers.GetUser)
 
 	//r.DELETE("/app/det", handlers.DeleteUser)
 
