@@ -45,7 +45,7 @@ func (user *User) SaveEmail() (*User, error) {
 
 func GetEmail(search_mail string) (*User, error) {
 	var startup User
-	err := Database.Where("id = ?", search_mail).First(&startup).Error
+	err := Database.Where("email = ?", search_mail).First(&startup).Error
 	if err != nil {
 		return nil, err
 	}
